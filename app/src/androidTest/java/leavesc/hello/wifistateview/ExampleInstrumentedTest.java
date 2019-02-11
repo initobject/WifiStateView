@@ -1,4 +1,4 @@
-package com.czy.wifistateview;
+package leavesc.hello.wifistateview;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package com.czy.wifistateview;
+package leavesc.hello.wifistateview;
 
 import org.junit.Test;
 

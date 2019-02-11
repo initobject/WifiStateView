@@ -1,4 +1,4 @@
-package com.czy.wifistateview;
+package leavesc.hello.wifistateview;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,9 +16,11 @@ import android.util.Log;
 import java.lang.ref.WeakReference;
 
 /**
- * 作者： 叶应是叶
- * 时间： 2017/8/22 18:25
+ * 作者：leavesC
+ * 时间：2019/2/11 20:21
  * 描述：
+ * GitHub：https://github.com/leavesC
+ * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
 public class WifiStateView extends AppCompatImageView {
 
@@ -41,7 +43,7 @@ public class WifiStateView extends AppCompatImageView {
     //Wifi信号等级（最强）
     private static final int LEVEL_4 = 4;
 
-    private final String TAG = "WifiStateView";
+    private static final String TAG = "WifiStateView";
 
     private static class WifiHandler extends Handler {
 
@@ -82,23 +84,25 @@ public class WifiStateView extends AppCompatImageView {
     private BroadcastReceiver wifiStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e(TAG, "action " + intent.getAction());
-            switch (intent.getAction()) {
-                case WifiManager.WIFI_STATE_CHANGED_ACTION:
-                    if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLING) {
-                        wifiHandler.sendEmptyMessage(LEVEL_NONE);
-                    }
-                    break;
-                case WifiManager.RSSI_CHANGED_ACTION:
-                    if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
-                        wifiHandler.sendEmptyMessage(LEVEL_NONE);
-                        return;
-                    }
-                    WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-                    int level = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), 5);
-                    Log.e(TAG, "level:" + level);
-                    wifiHandler.sendEmptyMessage(level);
-                    break;
+            if (intent.getAction() != null) {
+                Log.e(TAG, "action " + intent.getAction());
+                switch (intent.getAction()) {
+                    case WifiManager.WIFI_STATE_CHANGED_ACTION:
+                        if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLING) {
+                            wifiHandler.sendEmptyMessage(LEVEL_NONE);
+                        }
+                        break;
+                    case WifiManager.RSSI_CHANGED_ACTION:
+                        if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
+                            wifiHandler.sendEmptyMessage(LEVEL_NONE);
+                            return;
+                        }
+                        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                        int level = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), 5);
+                        Log.e(TAG, "level:" + level);
+                        wifiHandler.sendEmptyMessage(level);
+                        break;
+                }
             }
         }
     };
